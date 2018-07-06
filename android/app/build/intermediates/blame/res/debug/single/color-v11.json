@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color-v11\\abc_background_cache_hint_selector_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color-v11\\abc_background_cache_hint_selector_material_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color-v11\\abc_background_cache_hint_selector_material_dark.xml"
+    }
+]

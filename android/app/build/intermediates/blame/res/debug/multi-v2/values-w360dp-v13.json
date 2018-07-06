@@ -1,0 +1,48 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-w360dp-v13\\values-w360dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\values-w360dp\\values-w360dp.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "283",
+                        "endColumns": "54",
+                        "endOffsets": "333"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "54",
+                        "endOffsets": "105"
+                    }
+                }
+            ]
+        },
+        {
+            "outputFile": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\values-w360dp-v13\\values-w360dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\values-w360dp\\values-w360dp.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "4",
+                        "startOffsets": "283",
+                        "endColumns": "54",
+                        "endOffsets": "333"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "54",
+                        "endOffsets": "105"
+                    }
+                }
+            ]
+        }
+    ]
+}

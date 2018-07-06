@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_material_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_primary_text_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_disable_only_material_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_primary_text_disable_only_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_material_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_primary_text_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\switch_thumb_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_secondary_text_material_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_secondary_text_material_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_tint.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-10.2.4.aar\\5544db012dcf27b8e7a0ffe09a00db5a\\res\\color\\common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_search_url_text.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_search_url_text.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_text_light.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-10.2.4.aar\\5544db012dcf27b8e7a0ffe09a00db5a\\res\\color\\common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_primary_text_disable_only_material_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_primary_text_disable_only_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\common_google_signin_btn_text_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-10.2.4.aar\\5544db012dcf27b8e7a0ffe09a00db5a\\res\\color\\common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\abc_secondary_text_material_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\abc_secondary_text_material_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\color\\switch_thumb_material_dark.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\color\\switch_thumb_material_dark.xml"
+    }
+]

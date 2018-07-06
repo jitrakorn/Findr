@@ -1,0 +1,66 @@
+[
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_shrink_fade_out_from_bottom.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_shrink_fade_out_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_fade_out.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_fade_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_push_up_in.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_push_up_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_push_up_out.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_push_up_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_enter.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_popup_enter.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_bottom.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_slide_in_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_in.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_fade_in.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_in_top.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_slide_in_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_top.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_slide_out_top.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_fade_out.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_fade_out.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_slide_down.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_slide_down.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_popup_exit.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_popup_exit.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_slide_out_bottom.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_slide_out_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_slide_up.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_slide_up.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\abc_grow_fade_in_from_bottom.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-23.0.1.aar\\70cfa37d64fe5d9d96158db1d573d26a\\res\\anim\\abc_grow_fade_in_from_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\res\\merged\\debug\\anim\\catalyst_fade_in.xml",
+        "source": "C:\\Users\\jitra\\.gradle\\caches\\transforms-1\\files-1.1\\react-native-0.55.4.aar\\9405be4c0535ca01e75a51b6e6cce655\\res\\anim\\catalyst_fade_in.xml"
+    }
+]
