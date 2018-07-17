@@ -52,10 +52,11 @@ export default class BuildingScreen extends React.Component {
         })
     }
 
-    getFloorplan(selectedBuilding, selectedFloor) {
-        var storageRef = storage.ref(selectedBuilding + '/' + selectedFloor + '.png');
-        storageRef.getDownloadURL().then(function(url) {
-            return url
+    getFloorplan() {
+        var storageRef = storage.ref(this.state.selectedBuilding + '/' + this.state.selectedFloor + '.png');
+        storageRef.getDownloadURL().then((url) => {
+            this.setState({floorplan: url});
+            console.log(url)
         })
     }
 
@@ -79,7 +80,6 @@ export default class BuildingScreen extends React.Component {
     componentDidMount() {
         this.getBuildingData();
         this.getFloorData();
-        this.getFloorplan();
         if(this.props.navigation.getParam('selected', 'NO-NAME') === true) {
             this.selectMarker(this.props.navigation.getParam('selectedRoom', 'NO-NAME'))
         }
@@ -88,12 +88,17 @@ export default class BuildingScreen extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         // After fetching building data
         if(this.state.buildingData !== prevState.buildingData) {
-            this.setState({isLoading: false});
+            this.getFloorplan();
             this.getSelectedIndex();
         }
+
+        if(this.state.floorplan !== prevState.floorplan) this.setState({isLoading: false});
         
         // Get room markers after selectedFloor is updated
-        if(this.state.selectedFloor !== prevState.selectedFloor) this.getFloorData();
+        if(this.state.selectedFloor !== prevState.selectedFloor) {
+            this.getFloorData();
+            this.getFloorplan();
+        }
 
         if(this.state.roomData !== prevState.roomData) this.setState({markerSelected: true});
     }
@@ -139,6 +144,7 @@ export default class BuildingScreen extends React.Component {
             return (
                 <View style = {styles.container}>
                     <MapView
+                        mapType = "none"
                         provider = {PROVIDER_GOOGLE}
                         style = {styles.map}
                         initialRegion = {{
@@ -150,8 +156,8 @@ export default class BuildingScreen extends React.Component {
 
                         
                         <MapView.Overlay
-                            bounds = {[[1.295529, 103.773545],[1.294544, 103.774315]]}
-                            image = {{uri: this.getFloorplan(this.state.selectedBuilding, this.state.selectedFloor)}}
+                            bounds = {[[1.295529, 103.773580],[1.294548, 103.774318]]}
+                            image = {{uri: this.state.floorplan}}
                         />
 
                         {this.state.markerSelected ? 
@@ -161,10 +167,7 @@ export default class BuildingScreen extends React.Component {
                                 selected = {true}
                             />
                         :
-                            null
-                        }
-
-                            {this.state.floorData.map((room, index) => (
+                            this.state.floorData.map((room, index) => (
                                 <MapMarker
                                     key = {index}
                                     name = {room.shortname}

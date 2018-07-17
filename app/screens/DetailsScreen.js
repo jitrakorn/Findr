@@ -43,7 +43,7 @@ export default class DetailsScreen extends React.Component {
                 alignSelf: 'center',
                 textAlign: 'center',
             },
-            title: navigation.getParam('selectedRoom', 'NO-NAME'),
+            title: navigation.getParam('roomName', 'NO-NAME'),
             headerLeft: (
                 <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
                     <HeaderButton.Item 
