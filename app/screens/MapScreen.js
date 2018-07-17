@@ -5,12 +5,30 @@ import {
     View,
 } from 'react-native';
 import HeaderButton from 'react-navigation-header-buttons'
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, UrlTile } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapMarker from './MapMarker';
-import buildingData from '../database/buildings.json'
+import MapMarker from '../components/MapMarker';
+import { firebaseApp } from '../firebase';
 
 export default class MapScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            buildingData: [],
+        }
+    }
+
+    getBuildingData() {
+        buildingRef = firebaseApp.database().ref('buildings/');
+        buildingRef.once('value', (snapshot) => {
+            this.setState({buildingData: Object.values(snapshot.val())});
+        })
+    }
+
+    componentDidMount() {
+        this.getBuildingData();
+    }
+
     static navigationOptions = ({navigation}) => {
         return {
             headerTitleStyle: {
@@ -51,12 +69,19 @@ export default class MapScreen extends React.Component {
                         longitudeDelta: 0.01,
                     }}
                 >
-                    {buildingData.map((building, i) => (
+
+                    {this.state.buildingData.map((building, index) => (
                         <MapMarker
-                            key = {i}
+                            key = {index}
                             name = {building.name}
-                            coordinate = {{latitude: Number(building.latitude), longitude: Number(building.longitude)}}
-                            onPress = {() => this.props.navigation.navigate('BuildingMap', {index: i})}
+                            coordinate = {{
+                                latitude: building.latitude,
+                                longitude: building.longitude,
+                            }}
+                            onPress = {() => this.props.navigation.navigate('BuildingMap', {
+                                selectedBuilding: building.name,
+                                selectedFloor: '01',
+                            })}
                         />
                     ))}
                 </MapView>

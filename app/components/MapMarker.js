@@ -19,6 +19,10 @@ class MapMarker extends React.Component {
     selected() {
         this.setState({selected: true});
     }
+
+    componentDidMount() {
+        if(this.props.selected === true) this.setState({selected: true})
+    }
     
     render() {
         return (
@@ -40,13 +44,13 @@ class MapMarker extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        marginBottom: -10,
+        marginBottom: -7,
     },
     bubble: {
         alignSelf: 'center',
         backgroundColor: 'white',
         borderRadius: 15,
-        borderWidth: 3,
+        borderWidth: 2,
         paddingTop: 3,
         paddingBottom: 3,
         paddingLeft: 7,
@@ -54,14 +58,14 @@ const styles = StyleSheet.create({
     },
     name: {
         color: 'black',
-        fontSize: 12,
+        fontSize: 10,
     },
     arrow: {
         alignSelf: 'center',
         backgroundColor: 'transparent',
         borderColor: 'transparent',
-        borderWidth: 10,
-        bottom: 3
+        borderWidth: 7,
+        bottom: 2
     },
 })
 
