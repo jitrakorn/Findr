@@ -1,4 +1,0 @@
-dependencies: \
-  /Users/terence/Desktop/Findr/node_modules/react-native/React/Profiler/RCTProfileTrampoline-i386.S \
-  /Users/terence/Desktop/Findr/node_modules/react-native/React/Base/RCTDefines.h \
-  /Users/terence/Desktop/Findr/node_modules/react-native/React/Profiler/RCTMacros.h
