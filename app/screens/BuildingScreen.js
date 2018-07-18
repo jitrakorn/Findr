@@ -10,6 +10,7 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapMarker from '../components/MapMarker';
 import { firebaseApp } from '../firebase';
+import DirectoryScreen from './DirectoryScreen';
 
 var database = firebaseApp.database();
 var storage = firebaseApp.storage();
@@ -27,6 +28,7 @@ export default class BuildingScreen extends React.Component {
             roomData: [],
             floorplan: [],
             isLoading: true,
+            directoryVisible: false,
         }
         this.updateFloor = this.updateFloor.bind(this)
     }
@@ -129,10 +131,7 @@ export default class BuildingScreen extends React.Component {
                     <HeaderButton.Item
                         title = 'directory'
                         iconName = 'format-list-bulleted'
-                        onPress = {() => navigation.navigate('Directory', {
-                            index: navigation.getParam('building', 'NO-ID'),
-                            selectedBuilding: navigation.getParam('selectedBuilding', 'NO-NAME'),
-                        })}
+                        onPress = {this.setState({directoryVisible: true})}
                     />
                 </HeaderButton>
             )
@@ -151,29 +150,24 @@ export default class BuildingScreen extends React.Component {
                             latitude: this.state.buildingData["0"].latitude, longitude: this.state.buildingData["0"].longitude,
                             latitudeDelta: 0.001, longitudeDelta: 0.001,
                         }}
-                        onPress = {() => this.deselectMarker()}
-                    >
+                        onPress = {() => this.deselectMarker()}>
 
-                        
                         <MapView.Overlay
                             bounds = {[[1.295529, 103.773580],[1.294548, 103.774318]]}
-                            image = {{uri: this.state.floorplan}}
-                        />
+                            image = {{uri: this.state.floorplan}} />
 
                         {this.state.markerSelected ? 
                             <MapMarker
                                 name = {this.state.roomData["0"].shortname}
                                 coordinate = {{ latitude: Number(this.state.roomData["0"].latitude), longitude: Number(this.state.roomData["0"].longitude) }}
-                                selected = {true}
-                            />
+                                selected = {true} />
                         :
                             this.state.floorData.map((room, index) => (
                                 <MapMarker
                                     key = {index}
                                     name = {room.shortname}
                                     coordinate = {{ latitude: Number(room.latitude), longitude: Number(room.longitude) }}
-                                    onPress = {() => this.selectMarker(room.unit)}
-                                />
+                                    onPress = {() => this.selectMarker(room.unit)} />
                             ))
                         }
                         
@@ -185,17 +179,22 @@ export default class BuildingScreen extends React.Component {
                             <Text style = {styles.cardInfo}> {this.state.roomData["0"].type} · {this.state.roomData["0"].unit} </Text>
                             <Button
                                 title = 'More Details'
-                                onPress = {() => this.props.navigation.navigate('Details', {roomName: this.state.roomData["0"].name, selectedRoom: this.state.roomData["0"].unit})}
-                            />
+                                onPress = {() => this.props.navigation.navigate('Details', {roomName: this.state.roomData["0"].name, selectedRoom: this.state.roomData["0"].unit})} />
                         </Card>
                     :
                         <ButtonGroup
                             containerStyle = {styles.cardContainer}
                             onPress = {this.updateFloor}
                             selectedIndex = {this.state.selectedIndex}
-                            buttons = {this.state.buildingData["0"].floors}
-                        />
+                            buttons = {this.state.buildingData["0"].floors} />
                     }
+
+                    <SlidingUpPanel
+                        visible = {this.state.directoryVisible}
+                        onRequestClose = {() => this.setState({directoryVisible: false})} >
+                        <DirectoryScreen/>
+                    </SlidingUpPanel>
+
                 </View>
             )
         }
