@@ -1,0 +1,351 @@
+{ "buildings" :
+[ {
+    "floors" : [ {
+      "floor" : "B",
+      "floorplan" : "",
+      "rooms" : [ {
+        "fullname" : "Coming Soon",
+        "id" : "1",
+        "latitude" : "1.295460",
+        "longitude" : "103.773659",
+        "name" : "Coming Soon",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-01"
+      } ]
+    }, {
+      "floor" : "1",
+      "floorplan" : "./floorplans/com1-1.png",
+      "rooms" : [ {
+        "fullname" : "Technical Staff Office 1",
+        "id" : "1",
+        "latitude" : "1.295460",
+        "longitude" : "103.773659",
+        "name" : "TSO-1",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-01"
+      }, {
+        "fullname" : "Technical Staff Office 2",
+        "id" : "2",
+        "latitude" : "1.295426",
+        "longitude" : "103.773689",
+        "name" : "TSO-2",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-02"
+      }, {
+        "fullname" : "Technical Staff Office 3",
+        "id" : "3",
+        "latitude" : "1.295391",
+        "longitude" : "103.773720",
+        "name" : "TSO-3",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-03"
+      }, {
+        "fullname" : "Electrical Room 4",
+        "id" : "4",
+        "latitude" : "1.295356",
+        "longitude" : "103.773743",
+        "name" : "ER-4",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-04"
+      }, {
+        "fullname" : "Electrical Room 3",
+        "id" : "5",
+        "latitude" : "1.295248",
+        "longitude" : "103.773735",
+        "name" : "ER-3",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-05"
+      }, {
+        "fullname" : "Technical Services",
+        "id" : "6",
+        "latitude" : "1.295042",
+        "longitude" : "103.773735",
+        "name" : "Tech Svc",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-06"
+      }, {
+        "fullname" : "Electrical Room 2",
+        "id" : "7",
+        "latitude" : "1.295197",
+        "longitude" : "103.773781",
+        "name" : "ER2",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-06A"
+      }, {
+        "fullname" : "#01-06B",
+        "id" : "8",
+        "latitude" : "1.295159",
+        "longitude" : "103.773849",
+        "name" : "#01-06B",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-06B"
+      }, {
+        "fullname" : "AV Control Room",
+        "id" : "9",
+        "latitude" : "1.294991",
+        "longitude" : "103.773712",
+        "name" : "AV",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-06C"
+      }, {
+        "fullname" : "#01-06D",
+        "id" : "10",
+        "latitude" : "1.295011",
+        "longitude" : "103.773682",
+        "name" : "#01-06D",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-06D"
+      }, {
+        "fullname" : "Computer Room 1",
+        "id" : "11",
+        "latitude" : "1.295138",
+        "longitude" : "103.773674",
+        "name" : "Com Rm1",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-06E"
+      }, {
+        "fullname" : "Database 3: Electronic Commerce & Database",
+        "id" : "12",
+        "latitude" : "1.294977",
+        "longitude" : "103.774101",
+        "name" : "DB-3",
+        "type" : "Research Labs",
+        "unit" : "01-07"
+      }, {
+        "fullname" : "Database 1: Database 1",
+        "id" : "13",
+        "latitude" : "1.294850",
+        "longitude" : "103.774208",
+        "name" : "DB-1",
+        "type" : "Research Labs",
+        "unit" : "01-08"
+      }, {
+        "fullname" : "Artificial Intelligence 2: Information Mining & Extraction",
+        "id" : "14",
+        "latitude" : "1.294745",
+        "longitude" : "103.774200",
+        "name" : "AI-2",
+        "type" : "Research Labs",
+        "unit" : "01-09"
+      }, {
+        "fullname" : "Systems & Networking 1: Embedded Systems 1",
+        "id" : "15",
+        "latitude" : "1.294704",
+        "longitude" : "103.774155",
+        "name" : "SN-1",
+        "type" : "Research Labs",
+        "unit" : "01-10"
+      }, {
+        "fullname" : "Database 2: Database 2",
+        "id" : "16",
+        "latitude" : "1.294812",
+        "longitude" : "103.774117",
+        "name" : "DB-2",
+        "type" : "Research Labs",
+        "unit" : "01-11"
+      }, {
+        "fullname" : "Artificial Intelligence 1: Adaptive Computing",
+        "id" : "17",
+        "latitude" : "1.294864",
+        "longitude" : "103.774071",
+        "name" : "AI-1",
+        "type" : "Research Labs",
+        "unit" : "01-12"
+      }, {
+        "fullname" : "Embedded Systems Teaching Lab 2",
+        "id" : "18",
+        "latitude" : "1.294903",
+        "longitude" : "103.774025",
+        "name" : "ES Lab 2",
+        "type" : "Teaching Labs",
+        "unit" : "01-13"
+      }, {
+        "fullname" : "Embedded Systems Teaching Lab 1",
+        "id" : "19",
+        "latitude" : "1.294950",
+        "longitude" : "103.773979",
+        "name" : "ES Lab 1",
+        "type" : "Teaching Labs",
+        "unit" : "01-14"
+      }, {
+        "fullname" : "Systems & Networking 2: Embedded Systems 2",
+        "id" : "20",
+        "latitude" : "1.295032",
+        "longitude" : "103.773941",
+        "name" : "SN-2",
+        "type" : "Research Labs",
+        "unit" : "01-15"
+      }, {
+        "fullname" : "Systems & Networking 8: National Cybersecurity R&D Lab",
+        "id" : "21",
+        "latitude" : "1.294989",
+        "longitude" : "103.773895",
+        "name" : "SN-8",
+        "type" : "Research Labs",
+        "unit" : "01-16"
+      }, {
+        "fullname" : "Supplies Room",
+        "id" : "22",
+        "latitude" : "1.294655",
+        "longitude" : "103.774132",
+        "name" : "Supplies ",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-17"
+      }, {
+        "fullname" : "Meeting Room 5",
+        "id" : "23",
+        "latitude" : "1.294693",
+        "longitude" : "103.774094",
+        "name" : "MR-5",
+        "type" : "Meeting Rooms",
+        "unit" : "01-18"
+      }, {
+        "fullname" : "Artificial Intelligence 3: Medical Computing",
+        "id" : "24",
+        "latitude" : "1.294630",
+        "longitude" : "103.774055",
+        "name" : "AI-3",
+        "type" : "Research Labs",
+        "unit" : "01-19"
+      }, {
+        "fullname" : "Programming Lab 6",
+        "id" : "25",
+        "latitude" : "1.294759",
+        "longitude" : "103.773956",
+        "name" : "PL-6",
+        "type" : "Teaching Labs",
+        "unit" : "01-20"
+      }, {
+        "fullname" : "Computational Biology 1: Computational Biology",
+        "id" : "26",
+        "latitude" : "1.294730",
+        "longitude" : "103.773872",
+        "name" : "CB-1",
+        "type" : "Research Labs",
+        "unit" : "01-21"
+      }, {
+        "fullname" : "Meeting Room 4",
+        "id" : "27",
+        "latitude" : "1.294878",
+        "longitude" : "103.773895",
+        "name" : "MR-4",
+        "type" : "Meeting Rooms",
+        "unit" : "01-22"
+      }, {
+        "fullname" : "Career Consultation Room",
+        "id" : "28",
+        "latitude" : "1.294967",
+        "longitude" : "103.773727",
+        "name" : "CCR",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-23"
+      }, {
+        "fullname" : "Robot Living Studio",
+        "id" : "29",
+        "latitude" : "1.295088",
+        "longitude" : "103.773849",
+        "name" : "RLS",
+        "type" : "Research Labs",
+        "unit" : "01-24"
+      }, {
+        "fullname" : "AHU",
+        "id" : "30",
+        "latitude" : "1.294698",
+        "longitude" : "103.773987",
+        "name" : "AHU",
+        "type" : "Space does not come under SoC",
+        "unit" : "01-AHU1"
+      }, {
+        "fullname" : "AHU",
+        "id" : "31",
+        "latitude" : "1.294901",
+        "longitude" : "103.773811",
+        "name" : "AHU",
+        "type" : "Space does not come under SoC",
+        "unit" : "01-AHU2"
+      }, {
+        "fullname" : "Gen Set Room",
+        "id" : "32",
+        "latitude" : "1.295296",
+        "longitude" : "103.773796",
+        "name" : "GSR",
+        "type" : "Space does not come under SoC",
+        "unit" : "01-GEN"
+      }, {
+        "fullname" : "Electrical Room 1",
+        "id" : "33",
+        "latitude" : "1.295329",
+        "longitude" : "103.773781",
+        "name" : "ER-1",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-LTSW1"
+      }, {
+        "fullname" : "Switch Room",
+        "id" : "34",
+        "latitude" : "1.295277",
+        "longitude" : "103.773827",
+        "name" : "SR",
+        "type" : "Space does not come under SoC",
+        "unit" : "01-LTSW2"
+      }, {
+        "fullname" : "Supplies Room",
+        "id" : "35",
+        "latitude" : "1.294655",
+        "longitude" : "103.774132",
+        "name" : "Supplies ",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-PANTRY1"
+      }, {
+        "fullname" : "Graduates' Student Lounge",
+        "id" : "36",
+        "latitude" : "1.294846",
+        "longitude" : "103.773857",
+        "name" : "Grad's Lounge",
+        "type" : "Student Area",
+        "unit" : "01-PANTRY2"
+      }, {
+        "fullname" : "Wire Centre",
+        "id" : "37",
+        "latitude" : "1.294825",
+        "longitude" : "103.774025",
+        "name" : "Wire Cen",
+        "type" : "Miscellaneous Facilities",
+        "unit" : "01-WIRECEN"
+      } ]
+    }, {
+      "floor" : "2",
+      "floorplan" : "",
+      "rooms" : [ {
+        "fullname" : "Coming Soon",
+        "id" : "1",
+        "latitude" : "1.295460",
+        "longitude" : "103.773659",
+        "name" : "Coming Soon",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-01"
+      } ]
+    }, {
+      "floor" : "3",
+      "floorplan" : "",
+      "rooms" : [ {
+        "fullname" : "Coming Soon",
+        "id" : "1",
+        "latitude" : "1.295460",
+        "longitude" : "103.773659",
+        "name" : "Coming Soon",
+        "type" : "Admin/Technical Staff Offices",
+        "unit" : "01-01"
+      } ]
+    } ],
+    "id" : "0",
+    "latitude" : "1.294912",
+    "longitude" : "103.773881",
+    "name" : "COM1"
+  }, {
+    "floors" : "1, 2, 3",
+    "id" : "1",
+    "latitude" : "1.294023",
+    "longitude" : "103.774007",
+    "name" : "COM2"
+  } ]
+}

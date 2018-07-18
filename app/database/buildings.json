@@ -17,8 +17,7 @@
                         "longitude": "103.773659",
                         "type": "Admin/Technical Staff Offices"
                     }
-                ],
-                "floorplan": ""
+                ]
             },
             {
                 "floor": "1",
@@ -356,8 +355,7 @@
                         "longitude": "103.774025",
                         "type": "Miscellaneous Facilities"
                     }
-                ],
-                "floorplan": "./floorplans/com1-1.png"
+                ]
             },
             {
                 "floor": "2",

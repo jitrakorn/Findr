@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    FlatList,
+    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -8,9 +8,33 @@ import {
 } from 'react-native';
 import HeaderButton from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import data from '../database/buildings.json';
+import { firebaseApp } from '../firebase';
+
+var database = firebaseApp.database();
 
 export default class DirectoryScreen extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        }
+    }
+
+    getData() {
+        var dataRef = database.ref('rooms/');
+        var lookup = this.props.navigation.getParam('selectedBuilding', 'NO-NAME')
+        dataRef.orderByChild('location').startAt(lookup).endAt(lookup + '\uf8ff').once('value', (snapshot) => {
+            this.setState({data: Object.values(snapshot.val())});
+        })
+    }
+
+    getFloor(location) {
+        var locationSplit = location.split('-')
+        console.log(locationSplit[1])
+        return locationSplit[1];
+    }
+
     static navigationOptions = ({ navigation }) => {
         return {
             headerTitleStyle: {
@@ -18,7 +42,7 @@ export default class DirectoryScreen extends React.Component {
                 alignSelf: 'center',
                 textAlign: 'center'
             },
-            title: data[navigation.getParam('index', 'NO-ID')].name,
+            title: navigation.getParam('selectedBuilding', 'NO-NAME'),
             headerLeft: (
                 <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
                     <HeaderButton.Item 
@@ -32,29 +56,28 @@ export default class DirectoryScreen extends React.Component {
         }
     }
 
-    render() {
-        const index = this.props.navigation.getParam('index', 'NO-ID');
+    componentDidMount() {
+        this.getData();
+    }
 
+    render() {
         return (
-            <FlatList
-                data = {data[index].floors}
-                renderItem = {({item}) =>
-                    <FlatList
-                        data = {item.rooms}
-                        renderItem = {({item}) => 
-                            <TouchableOpacity style = {styles.button}>
-                                <Text
-                                    style = {styles.name}
-                                    numberOfLines = {1} 
-                                >
-                                    {item.fullname}
-                                </Text>
-                                <Text style = {styles.detail}> {item.unit}</Text>
-                            </TouchableOpacity>
-                        }
-                    />
-                }
-            />
+            <ScrollView>
+                {this.state.data.map((room, index) => ( 
+                    <TouchableOpacity 
+                        key = {index}
+                        onPress = {() => this.props.navigation.push('BuildingMap', {
+                            selectedFloor: this.getFloor(room.location),
+                            selectedRoom: room.unit,
+                            selectedBuilding: this.props.navigation.getParam('selectedBuilding', 'NO-NAME'),
+                            selected: true,
+                        })}
+                    >
+                        <Text style = {styles.name}>{room.name}</Text>
+                        <Text style = {styles.detail}>{room.unit}</Text>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
         )
     }
 }

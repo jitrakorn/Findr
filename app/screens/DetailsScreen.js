@@ -6,9 +6,36 @@ import {
 } from 'react-native';
 import HeaderButton from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import data from '../database/buildings.json';
+import { firebaseApp } from '../firebase';
+
+var database = firebaseApp.database();
 
 export default class DetailsScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            roomData: [],
+            isLoading: true,
+        }
+    }
+
+    getRoomData() {
+        var dataRef = database.ref('rooms/');   
+        dataRef.orderByChild('unit').equalTo(this.props.navigation.getParam('selectedRoom', 'NO-DATA')).once('value', (snapshot) => {
+            console.log(snapshot.val())
+            this.setState({roomData: Object.values(snapshot.val())});
+        })
+    }
+
+    componentDidMount() {
+        this.getRoomData();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        // After fetching building data
+        if(this.state.roomData !== prevState.roomData) this.setState({isLoading: false});
+    }
+
     static navigationOptions = ({navigation}) => {
         return {
             headerTitleStyle: {
@@ -16,9 +43,7 @@ export default class DetailsScreen extends React.Component {
                 alignSelf: 'center',
                 textAlign: 'center',
             },
-            title: data[navigation.getParam('building', 'NO-ID')].
-                floors[navigation.getParam('floor', 'NO-ID')].
-                rooms[navigation.getParam('room', 'NO-ID')].fullname,
+            title: navigation.getParam('roomName', 'NO-NAME'),
             headerLeft: (
                 <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
                     <HeaderButton.Item 
@@ -33,16 +58,18 @@ export default class DetailsScreen extends React.Component {
     }
 
     render() {
-        const building = this.props.navigation.getParam('building', 'NO-ID');
-        const floor = this.props.navigation.getParam('floor', 'NO-ID');
-        const room = this.props.navigation.getParam('room', 'NO-ID');
-
         return (
             <View>
-                <Text style = {styles.name}>Type</Text>
-                <Text style = {styles.field}>{data[building].floors[floor].rooms[room].type}</Text>
-                <Text style = {styles.name}>Unit</Text>
-                <Text style = {styles.field}>{data[building].floors[floor].rooms[room].unit}</Text>
+            {this.state.isLoading ?
+                null
+            :
+                <View>
+                    <Text style = {styles.name}>Type</Text>
+                    <Text style = {styles.field}>{this.state.roomData["0"].type}</Text>
+                    <Text style = {styles.name}>Unit</Text>
+                    <Text style = {styles.field}>{this.state.roomData["0"].unit}</Text>
+                </View>
+            }
             </View>
         )
     }

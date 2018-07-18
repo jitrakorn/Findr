@@ -8,31 +8,99 @@ import { Button, ButtonGroup, Card } from 'react-native-elements';
 import HeaderButton from 'react-navigation-header-buttons'
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import MapMarker from './MapMarker';
-import data from '../database/buildings.json'
+import MapMarker from '../components/MapMarker';
+import { firebaseApp } from '../firebase';
+
+var database = firebaseApp.database();
+var storage = firebaseApp.storage();
 
 export default class BuildingScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedFloor: 1,
-            selectedRoom: 0,
+            selectedBuilding: this.props.navigation.getParam('selectedBuilding', 'NO-NAME'),
+            selectedFloor: this.props.navigation.getParam('selectedFloor', 'NO-ID'),
+            selectedIndex: 0,
             markerSelected: false,
+            buildingData: [],
+            floorData: [],
+            roomData: [],
+            floorplan: [],
+            isLoading: true,
         }
-        this.updateIndex = this.updateIndex.bind(this)
+        this.updateFloor = this.updateFloor.bind(this)
+    }
+
+    getBuildingData() {
+        var buildingsRef = database.ref('buildings/');
+        buildingsRef.orderByChild('name').equalTo(this.state.selectedBuilding).once('value', (snapshot) => {
+            this.setState({buildingData: Object.values(snapshot.val())})
+        });
+    }
+    
+    getFloorData() {
+        var roomRef = database.ref('rooms/');
+        var lookup = this.state.selectedBuilding + '-' + this.state.selectedFloor;
+        roomRef.orderByChild('location').startAt(lookup).endAt(lookup + '\uf8ff').once('value', (snapshot) => {
+            this.setState({floorData: Object.values(snapshot.val())});
+        })
+    }
+
+    getSelectedIndex() {
+        this.state.buildingData["0"].floors.map((floor, index) => {
+            if(this.state.selectedFloor === floor) this.setState({selectedIndex: index})
+        })
+    }
+
+    getFloorplan() {
+        var storageRef = storage.ref(this.state.selectedBuilding + '/' + this.state.selectedFloor + '.png');
+        storageRef.getDownloadURL().then((url) => {
+            this.setState({floorplan: url});
+            console.log(url)
+        })
+    }
+
+    selectMarker(unit) {
+        var roomRef = database.ref('rooms/');
+        roomRef.orderByChild('unit').equalTo(unit).once('value', (snapshot) => {
+            console.log(snapshot.val())
+            this.setState({roomData: Object.values(snapshot.val())});
+        })
     }
 
     deselectMarker() {
         this.setState({markerSelected: false})
     }
 
-    selectMarker(selectedRoom) {
-        this.setState({markerSelected: true})
-        this.setState({selectedRoom: selectedRoom})
+    updateFloor(selectedFloor) {
+        this.setState({selectedFloor: this.state.buildingData["0"].floors[selectedFloor]});
+        this.setState({selectedIndex: selectedFloor});
+    }
+        
+    componentDidMount() {
+        this.getBuildingData();
+        this.getFloorData();
+        if(this.props.navigation.getParam('selected', 'NO-NAME') === true) {
+            this.selectMarker(this.props.navigation.getParam('selectedRoom', 'NO-NAME'))
+        }
     }
 
-    updateIndex(selectedFloor) {
-        this.setState({selectedFloor})
+    componentDidUpdate(prevProps, prevState) {
+        // After fetching building data
+        if(this.state.buildingData !== prevState.buildingData) {
+            this.getFloorplan();
+            this.getSelectedIndex();
+        }
+
+        if(this.state.floorplan !== prevState.floorplan) this.setState({isLoading: false});
+        
+        // Get room markers after selectedFloor is updated
+        if(this.state.selectedFloor !== prevState.selectedFloor) {
+            this.getFloorData();
+            this.getFloorplan();
+        }
+
+        if(this.state.roomData !== prevState.roomData) this.setState({markerSelected: true});
     }
 
     static navigationOptions = ({navigation}) => {
@@ -42,7 +110,7 @@ export default class BuildingScreen extends React.Component {
                 alignSelf: 'center',
                 textAlign: 'center',
             },
-            title: data[navigation.getParam('index', 'NO-ID')].name,
+            title: navigation.getParam('selectedBuilding', 'NO-NAME'),
             headerLeft: (
                 <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
                     <HeaderButton.Item 
@@ -61,82 +129,77 @@ export default class BuildingScreen extends React.Component {
                     <HeaderButton.Item
                         title = 'directory'
                         iconName = 'format-list-bulleted'
-                        onPress = {() => navigation.navigate('Directory', {index: navigation.getParam('index', 'NO-ID')})}
+                        onPress = {() => navigation.navigate('Directory', {
+                            index: navigation.getParam('building', 'NO-ID'),
+                            selectedBuilding: navigation.getParam('selectedBuilding', 'NO-NAME'),
+                        })}
                     />
                 </HeaderButton>
             )
         }
     }
 
-    render() { 
-        const index = this.props.navigation.getParam('index', 'NO-ID');
-        const buttons = data[index].floors.map((floors) => (floors.floor));
-        const {selectedFloor} = this.state;
+    render() {
+        if(this.state.isLoading === false) {
+            return (
+                <View style = {styles.container}>
+                    <MapView
+                        mapType = "none"
+                        provider = {PROVIDER_GOOGLE}
+                        style = {styles.map}
+                        initialRegion = {{
+                            latitude: this.state.buildingData["0"].latitude, longitude: this.state.buildingData["0"].longitude,
+                            latitudeDelta: 0.001, longitudeDelta: 0.001,
+                        }}
+                        onPress = {() => this.deselectMarker()}
+                    >
 
-        return (
-            <View style = {styles.container}>
-                <MapView
-                    provider = {PROVIDER_GOOGLE}
-                    style = {styles.map}
-                    initialRegion = {{
-                        latitude: Number(data[index].latitude),
-                        longitude: Number(data[index].longitude),
-                        latitudeDelta: 0.001,
-                        longitudeDelta: 0.001,
-                    }}
-                    onPress = {() => this.deselectMarker()}
-                >
-                    {this.state.markerSelected ? 
-                        <MapMarker
-                            name = {data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].name}
-                            coordinate = {{
-                                latitude: Number(data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].latitude),
-                                longitude: Number(data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].longitude)
-                            }}
+                        
+                        <MapView.Overlay
+                            bounds = {[[1.295529, 103.773580],[1.294548, 103.774318]]}
+                            image = {{uri: this.state.floorplan}}
                         />
 
-                    :
-                        data[index].floors[this.state.selectedFloor].rooms.map((room, index) => (
-                        <MapMarker
-                            key = {index}
-                            name = {room.name}
-                            coordinate = {{
-                                latitude: Number(room.latitude),
-                                longitude: Number(room.longitude)
-                            }}
-                            onPress = {() => this.selectMarker(index)}
-                        />
-                        ))
-                    }
+                        {this.state.markerSelected ? 
+                            <MapMarker
+                                name = {this.state.roomData["0"].shortname}
+                                coordinate = {{ latitude: Number(this.state.roomData["0"].latitude), longitude: Number(this.state.roomData["0"].longitude) }}
+                                selected = {true}
+                            />
+                        :
+                            this.state.floorData.map((room, index) => (
+                                <MapMarker
+                                    key = {index}
+                                    name = {room.shortname}
+                                    coordinate = {{ latitude: Number(room.latitude), longitude: Number(room.longitude) }}
+                                    onPress = {() => this.selectMarker(room.unit)}
+                                />
+                            ))
+                        }
+                        
+                    </MapView>
 
-                    <MapView.Overlay
-                        //bounds = {[[1.295529, 103.773545],[1.294544, 103.774315]]}
-                        //image = {require(data[index].floors[selectedFloor].floorplan)}
-                    />
-                </MapView>
-
-                {this.state.markerSelected ?
-
-                    <Card containerStyle = {styles.cardContainer}>
-                            <Text style = {styles.cardName}> {data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].fullname} </Text>
-                            <Text style = {styles.cardInfo}> {data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].type} · {data[index].floors[this.state.selectedFloor].rooms[this.state.selectedRoom].unit} </Text>
+                    {this.state.markerSelected ?
+                        <Card containerStyle = {styles.cardContainer}>
+                            <Text style = {styles.cardName}> {this.state.roomData["0"].name} </Text>
+                            <Text style = {styles.cardInfo}> {this.state.roomData["0"].type} · {this.state.roomData["0"].unit} </Text>
                             <Button
                                 title = 'More Details'
-                                onPress = {() => this.props.navigation.navigate('Details', {building: index, floor: this.state.selectedFloor, room: this.state.selectedRoom})}
+                                onPress = {() => this.props.navigation.navigate('Details', {roomName: this.state.roomData["0"].name, selectedRoom: this.state.roomData["0"].unit})}
                             />
                         </Card>
-                :
-                    <ButtonGroup
-                        containerStyle = {styles.cardContainer}
-                        onPress = {this.updateIndex}
-                        selectedIndex = {selectedFloor}
-                        buttons = {buttons}
-                    />
-                }
-
-
-            </View>
-        )
+                    :
+                        <ButtonGroup
+                            containerStyle = {styles.cardContainer}
+                            onPress = {this.updateFloor}
+                            selectedIndex = {this.state.selectedIndex}
+                            buttons = {this.state.buildingData["0"].floors}
+                        />
+                    }
+                </View>
+            )
+        }
+        else return <View/>
     }
 }
 

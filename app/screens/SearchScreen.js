@@ -6,33 +6,43 @@ import {
 import { SearchBar } from "react-native-elements";
 import HeaderButton from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import buildingData from '../database/buildings.json'
+import { firebaseApp } from '../firebase';
+
+var database = firebaseApp.database();
 
 export default class SearchScreen extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            search: '',
-            data: buildingData,
+            searchResults: [],
+            noResults: true,
         }
     }
 
     filterSearch(text) {
-        const newData = data.filter((item) => {
-            const itemData = item.name.first.toUpperCase()
-            const textData = text.toUpperCase()
-            return itemData.indexOf(textData) > -1
-        });
-        this.setState({
-            text: text,
-            data: newData,
+        var dataRef = database.ref('rooms/');
+        dataRef.orderByChild('name').startAt(text).endAt(text + "\uf8ff").on('value', (snapshot) => {
+            this.setState({searchResults: Object.values(snapshot.val())})
         })
     }
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerTitle: (
+            headerLeft: (
+                <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
+                    <HeaderButton.Item 
+                        title = "back"
+                        iconName = "arrow-back"
+                        onPress = {() => navigation.goBack()}
+                    />
+                </HeaderButton>
+            ),
+        }
+    }
+
+    render() {
+        return (
+            <View>
                 <SearchBar
                     placeholder = 'Search...'
                     containerStyle = {{
@@ -50,26 +60,11 @@ export default class SearchScreen extends React.Component {
                     autoFocus = {true}
                     onChangeText = {(text) => this.filterSearch(text)}
                 />
-            ),
 
-            headerLeft: (
-                <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
-                    <HeaderButton.Item 
-                        title = "back"
-                        iconName = "arrow-back"
-                        onPress = {() => navigation.goBack()}
-                    />
-                </HeaderButton>
-            ),
-        }
-    }
+                    {this.state.searchResults.map((room, index) => (
+                        <Text key = {index}> {room.name} </Text>
+                    ))}
 
-    render() {
-        return (
-            <View>
-                {this.state.data.map((user) => (
-                    <Text> {user.name} </Text>
-                ))}
             </View>
         )
     }
