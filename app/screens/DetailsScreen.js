@@ -2,6 +2,7 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import HeaderButton from 'react-navigation-header-buttons';
@@ -15,6 +16,8 @@ export default class DetailsScreen extends React.Component {
         super(props);
         this.state = {
             roomData: [],
+            staff: [],
+            staffExists: false,
             isLoading: true,
         }
     }
@@ -27,8 +30,19 @@ export default class DetailsScreen extends React.Component {
         })
     }
 
+    getStaff() {
+        var dataRef = database.ref('staff/');
+        dataRef.orderByChild('room').equalTo(this.props.navigation.getParam('selectedRoom', 'NO-DATA')).once('value', (snapshot) => {
+            if(snapshot.exists()) {
+                this.setState({staff: Object.values(snapshot.val())});
+                this.setState({staffExists: true})
+            }
+        })
+    }
+
     componentDidMount() {
         this.getRoomData();
+        this.getStaff();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -68,6 +82,19 @@ export default class DetailsScreen extends React.Component {
                     <Text style = {styles.field}>{this.state.roomData["0"].type}</Text>
                     <Text style = {styles.name}>Unit</Text>
                     <Text style = {styles.field}>{this.state.roomData["0"].unit}</Text>
+                    {this.state.staffExists ?
+                        <View>
+                            <Text style = {styles.name}>Staff</Text>
+                            {this.state.staff.map((staff, index) => (
+                                <TouchableOpacity onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
+                                    <Text key = {index} style = {styles.field}>{staff.name}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    :
+                        null
+                    }
+
                 </View>
             }
             </View>

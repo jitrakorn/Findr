@@ -28,15 +28,7 @@ export default class SearchScreen extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            headerLeft: (
-                <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
-                    <HeaderButton.Item 
-                        title = "back"
-                        iconName = "arrow-back"
-                        onPress = {() => navigation.goBack()}
-                    />
-                </HeaderButton>
-            ),
+            header: null
         }
     }
 

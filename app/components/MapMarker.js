@@ -31,10 +31,10 @@ class MapMarker extends React.Component {
                 onPress = {[() => this.selected()] && this.props.onPress}
             >
                 <View style = {styles.container}>
-                    <View style = {[styles.bubble, this.state.selected ? {borderColor: 'red'} : {borderColor: 'gray'}]}>
+                    <View style = {[styles.bubble, this.state.selected ? {borderColor: 'magenta'} : {borderColor: 'gray'}]}>
                         <Text style = {styles.name}> {this.props.name} </Text>
                     </View>
-                    <View style = {[styles.arrow, this.state.selected ? {borderTopColor: 'red'} : {borderTopColor: 'gray'}]} />
+                    <View style = {[styles.arrow, this.state.selected ? {borderTopColor: 'magenta'} : {borderTopColor: 'gray'}]} />
                 </View>
             </Marker>
         );
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     name: {
         color: 'black',
         fontSize: 10,
+        fontFamily: 'Rubik-Regular'
     },
     arrow: {
         alignSelf: 'center',

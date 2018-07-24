@@ -31,33 +31,13 @@ export default class MapScreen extends React.Component {
 
     static navigationOptions = ({navigation}) => {
         return {
-            headerTitleStyle: {
-                flex: 1,
-                alignSelf: 'center',
-                textAlign: 'center',
-            },
-            title: 'Map',
-            headerLeft: <View />,
-            headerRight: (
-                <HeaderButton
-                    IconComponent = {Icon}
-                    iconSize = {23}
-                    color = 'black'
-                >
-                    <HeaderButton.Item
-                        title = 'search'
-                        iconName = 'search'
-                        onPress = {() => navigation.navigate('Search')}
-                    />
-                </HeaderButton>
-            )
+            header: null,
         }
     }
 
     render() {
         return (
             <View style = {styles.container}>
-                <StatusBar backgroundColor = 'white' barStyle = 'dark-content' />
 
                 <MapView
                     provider = {PROVIDER_GOOGLE}

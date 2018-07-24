@@ -19,15 +19,22 @@
   },
   "dependencies": {
     "firebase": "^5.2.0",
+    "moment": "^2.22.2",
     "npm": "^6.2.0",
     "react": "16.3.1",
     "react-devtools-core": "^3.2.3",
     "react-native": "~0.55.2",
+    "react-native-autolink": "^1.4.0",
     "react-native-elements": "^0.19.1",
     "react-native-maps": "^0.21.0",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^2.6.1",
     "react-navigation-header-buttons": "^1.2.1",
     "rn-sliding-up-panel": "^1.2.1"
+  },
+  "rnpm": {
+    "assets": [
+      "./app/fonts"
+    ]
   }
 }

@@ -6,8 +6,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import HeaderButton from 'react-navigation-header-buttons';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { firebaseApp } from '../firebase';
 
 var database = firebaseApp.database();
@@ -23,37 +22,10 @@ export default class DirectoryScreen extends React.Component {
 
     getData() {
         var dataRef = database.ref('rooms/');
-        var lookup = this.props.navigation.getParam('selectedBuilding', 'NO-NAME')
+        var lookup = this.state.selectedBuilding;
         dataRef.orderByChild('location').startAt(lookup).endAt(lookup + '\uf8ff').once('value', (snapshot) => {
             this.setState({data: Object.values(snapshot.val())});
         })
-    }
-
-    getFloor(location) {
-        var locationSplit = location.split('-')
-        console.log(locationSplit[1])
-        return locationSplit[1];
-    }
-
-    static navigationOptions = ({ navigation }) => {
-        return {
-            headerTitleStyle: {
-                flex: 1,
-                alignSelf: 'center',
-                textAlign: 'center'
-            },
-            title: navigation.getParam('selectedBuilding', 'NO-NAME'),
-            headerLeft: (
-                <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
-                    <HeaderButton.Item 
-                        title = "back"
-                        iconName = "arrow-back"
-                        onPress = {() => navigation.goBack()}
-                    />
-                </HeaderButton>
-            ),
-            headerRight: <View />
-        }
     }
 
     componentDidMount() {
@@ -62,41 +34,61 @@ export default class DirectoryScreen extends React.Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView style = {{backgroundColor: '#FB8C00'}}>
+                <View style = {styles.header} >
+                    <Icon name = 'building' color = 'white' size = {25}/>
+                    <Text style = {styles.building}> {this.state.buildingData["0"].name} </Text>
+                    <Text style = {styles.school}> {this.state.buildingData["0"].school} </Text>
+                    <Text style = {styles.school}> 13 Computing Drive </Text>
+                </View>
+                <View style = {{backgroundColor: 'white', margin: 10, borderRadius: 10, padding: 15}}>
                 {this.state.data.map((room, index) => ( 
                     <TouchableOpacity 
                         key = {index}
-                        onPress = {() => this.props.navigation.push('BuildingMap', {
-                            selectedFloor: this.getFloor(room.location),
-                            selectedRoom: room.unit,
-                            selectedBuilding: this.props.navigation.getParam('selectedBuilding', 'NO-NAME'),
-                            selected: true,
-                        })}
-                    >
+                        onPress = {() => this.props.selectRoom(room.unit)} >
                         <Text style = {styles.name}>{room.name}</Text>
                         <Text style = {styles.detail}>{room.unit}</Text>
                     </TouchableOpacity>
                 ))}
+                </View>
             </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    button: {
-        backgroundColor: 'white',
-        padding: 5,
-        height: 50,
+
+    header: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 175
+    },
+
+    building: {
+        color: 'white',
+        fontSize: 40,
+        fontFamily: 'Rubik-Medium',
+    },
+
+    school: {
+        color: 'white',
+        fontSize: 18,
+        fontFamily: 'Rubik-Regular',
     },
 
     name: {
         color: 'black',
         fontSize: 18,
+        fontFamily: 'Rubik-Regular',
+        marginTop: 10
     },
 
     detail: {
-        color: 'gray',
+        color: 'grey',
         fontSize: 12,
+        fontFamily: 'Rubik-Regular',
     }
 })
 
