@@ -8,6 +8,7 @@ import {
 import HeaderButton from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { firebaseApp } from '../firebase';
+import moment from 'moment';
 
 var database = firebaseApp.database();
 
@@ -15,6 +16,8 @@ export default class DetailsScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            day: moment().format("dddd").toString(),
+            time: moment().format("HHmm").toString(),
             roomData: [],
             staff: [],
             staffExists: false,
@@ -43,11 +46,54 @@ export default class DetailsScreen extends React.Component {
     componentDidMount() {
         this.getRoomData();
         this.getStaff();
+
+        // Real-time to Timetable time
+        if(parseInt(this.state.time.substring(2,4),10) < 30) {
+            this.setState({time: moment().format("HH").toString() + "00", 
+            endTime: moment().format("HH").toString() + "30"})
+        }
+        else {
+            this.setState({time: moment().format("HH").toString() + "30",
+            endTime: moment().add(1, 'h').format("HH") + "00"})
+        }
+
+        // Manipulating day
+        switch(this.state.day) {
+            case "Monday":
+                this.setState({day: 0});
+                break;
+            case "Tuesday":
+                this.setState({day: 1});
+                break; 
+            case "Wednesday":
+                this.setState({day: 2});
+                break;
+            case "Thursday":
+                this.setState({day: 3});
+                break;
+            case "Friday":
+                this.setState({day: 4});
+                break;
+            case "Saturday":
+                this.setState({day: 5});
+                break;   
+        }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevState) {
         // After fetching building data
-        if(this.state.roomData !== prevState.roomData) this.setState({isLoading: false});
+        if(this.state.roomData !== prevState.roomData) {
+            // Retrieve room details from NUSMODS
+            return fetch('https://api.nusmods.com/2018-2019/1/venueInformation.json')
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    roomNow: this.state.roomData["0"].nusmodsid.toString(),
+                    dataSource: responseJson,
+                    isLoading: false,
+                });
+        });
+        }
     }
 
     static navigationOptions = ({navigation}) => {
@@ -82,6 +128,10 @@ export default class DetailsScreen extends React.Component {
                     <Text style = {styles.field}>{this.state.roomData["0"].type}</Text>
                     <Text style = {styles.name}>Unit</Text>
                     <Text style = {styles.field}>{this.state.roomData["0"].unit}</Text>
+                    <Text style = {styles.name}>Current Availability</Text>
+                    <Text style = {styles.field}>
+                    {this.state.dataSource[this.state.roomNow][this.state.day].Day} ({this.state.time}-{this.state.endTime}): {this.state.dataSource[this.state.roomNow][this.state.day].Availability[this.state.time]}
+                    </Text>
                     {this.state.staffExists ?
                         <View>
                             <Text style = {styles.name}>Staff</Text>

@@ -157,7 +157,7 @@ export default class BuildingScreen extends React.Component {
                     {this.state.markerSelected ?
                         <View style = {{flex: 1, width: '100%'}}>
                             <TouchableOpacity onPress = {() => this.deselectMarker()}>
-                                <View style = {styles.button} >
+                                <View style = {[styles.button, {alignSelf: 'center', margin: 10}]} >
                                     <Text style = {styles.buttonText} > FULL MAP </Text>
                                 </View>
                             </TouchableOpacity>
