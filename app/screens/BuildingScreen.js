@@ -203,7 +203,7 @@ export default class BuildingScreen extends React.Component {
                         transparent = {false}
                         visible = {this.state.modalVisible}
                         onRequestClose = {() => this.setState({modalVisible: false})} >
-                            <View style = {{backgroundColor: '#FB8C00', flex: 1,}}>
+                            <View style = {{backgroundColor: '#FB8C00', flex: 1}}>
                                 <ScrollView>
                                     <View style = {styles.directoryHeader} >
                                         <Text style = {styles.directoryHeaderTitle}> {this.state.buildingData["0"].name} </Text>
@@ -293,11 +293,8 @@ const styles = StyleSheet.create({
     },
 
     directoryHeader: {
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        height: 175
+        margin: 40
     },
 
     directoryHeaderTitle: {

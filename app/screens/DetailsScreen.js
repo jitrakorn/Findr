@@ -21,6 +21,7 @@ export default class DetailsScreen extends React.Component {
             roomData: [],
             staff: [],
             staffExists: false,
+            nusModsIDExists: false,
             isLoading: true,
         }
     }
@@ -43,10 +44,7 @@ export default class DetailsScreen extends React.Component {
         })
     }
 
-    componentDidMount() {
-        this.getRoomData();
-        this.getStaff();
-
+    getTime() {
         // Real-time to Timetable time
         if(parseInt(this.state.time.substring(2,4),10) < 30) {
             this.setState({time: moment().format("HH").toString() + "00", 
@@ -80,19 +78,36 @@ export default class DetailsScreen extends React.Component {
         }
     }
 
-    componentDidUpdate(prevState) {
+    getTimetable() {
+        var dataRef = database.ref('rooms/' + this.state.roomData["0"].unit + '/nusmodsid');
+        dataRef.once('value', (snapshot) =>  {
+            if(snapshot.exists()) {
+                // Retrieve room details from NUSMODS
+                return fetch('https://api.nusmods.com/2018-2019/1/venueInformation.json')
+                .then((response) => response.json())
+                .then((responseJson) => {
+                    this.setState({
+                        roomNow: this.state.roomData["0"].nusmodsid.toString(),
+                        dataSource: responseJson,
+                        nusModsIDExists: true,
+                    });
+                });
+            }
+        })
+    }
+
+    componentDidMount() {
+        this.getRoomData();
+        this.getStaff();
+        this.getTime();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
         // After fetching building data
         if(this.state.roomData !== prevState.roomData) {
-            // Retrieve room details from NUSMODS
-            return fetch('https://api.nusmods.com/2018-2019/1/venueInformation.json')
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    roomNow: this.state.roomData["0"].nusmodsid.toString(),
-                    dataSource: responseJson,
-                    isLoading: false,
-                });
-        });
+            console.log(this.state.roomData)
+            this.getTimetable();
+            this.setState({isLoading: false});
         }
     }
 
@@ -128,16 +143,22 @@ export default class DetailsScreen extends React.Component {
                     <Text style = {styles.field}>{this.state.roomData["0"].type}</Text>
                     <Text style = {styles.name}>Unit</Text>
                     <Text style = {styles.field}>{this.state.roomData["0"].unit}</Text>
-                    <Text style = {styles.name}>Current Availability</Text>
-                    <Text style = {styles.field}>
-                    {this.state.dataSource[this.state.roomNow][this.state.day].Day} ({this.state.time}-{this.state.endTime}): {this.state.dataSource[this.state.roomNow][this.state.day].Availability[this.state.time]}
-                    </Text>
+                    {this.state.nusModsIDExists ?
+                        <View>
+                            <Text style = {styles.name}>Current Availability</Text>
+                            <Text style = {styles.field}>
+                                {this.state.dataSource[this.state.roomNow][this.state.day].Day} ({this.state.time}-{this.state.endTime}): {this.state.dataSource[this.state.roomNow][this.state.day].Availability[this.state.time]}
+                            </Text>
+                        </View>
+                    :
+                        null
+                    }
                     {this.state.staffExists ?
                         <View>
                             <Text style = {styles.name}>Staff</Text>
                             {this.state.staff.map((staff, index) => (
-                                <TouchableOpacity onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
-                                    <Text key = {index} style = {styles.field}>{staff.name}</Text>
+                                <TouchableOpacity key = {index} onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
+                                    <Text style = {styles.field}>{staff.name}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>

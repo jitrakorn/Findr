@@ -14,15 +14,18 @@ export default class SearchScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchResults: [],
+            search: [],
+            searchTerm: '',
             noResults: true,
+            filteredSearch: ['hi']
         }
     }
 
     filterSearch(text) {
         var dataRef = database.ref('rooms/');
-        dataRef.orderByChild('name').startAt(text).endAt(text + "\uf8ff").on('value', (snapshot) => {
-            this.setState({searchResults: Object.values(snapshot.val())})
+        dataRef.once('value', (snapshot) => {
+            this.setState({search: Object.values(snapshot.val())})
+            this.setState({noResults: false});
         })
     }
 
@@ -32,7 +35,12 @@ export default class SearchScreen extends React.Component {
         }
     }
 
+    searchUpdated(term) {
+        this.setState({searchTerm: term})
+    }
+
     render() {
+        filteredSearch = this.state.search.filter((item) => item.name === this.state.searchTerm);
         return (
             <View>
                 <SearchBar
@@ -53,7 +61,7 @@ export default class SearchScreen extends React.Component {
                     onChangeText = {(text) => this.filterSearch(text)}
                 />
 
-                    {this.state.searchResults.map((room, index) => (
+                    {this.state.filteredSearch.map((room, index) => (
                         <Text key = {index}> {room.name} </Text>
                     ))}
 
