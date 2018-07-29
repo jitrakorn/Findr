@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -7,8 +8,10 @@ import {
 } from 'react-native';
 import HeaderButton from 'react-navigation-header-buttons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { firebaseApp } from '../firebase';
 import moment from 'moment';
+import mapStyle from '../mapStyle.json';
 
 var database = firebaseApp.database();
 
@@ -23,6 +26,8 @@ export default class DetailsScreen extends React.Component {
             staffExists: false,
             nusModsIDExists: false,
             isLoading: true,
+            availabile: false,
+            floorplan: 'https://firebasestorage.googleapis.com/v0/b/findr-1526869968216.appspot.com/o/blank.png?alt=media&token=8ec2978f-8a16-4472-8000-3801c0224997',
         }
     }
 
@@ -74,7 +79,10 @@ export default class DetailsScreen extends React.Component {
                 break;
             case "Saturday":
                 this.setState({day: 5});
-                break;   
+                break;
+            case "Sunday":
+                this.setState({day: 0});
+                break;
         }
     }
 
@@ -91,8 +99,22 @@ export default class DetailsScreen extends React.Component {
                         dataSource: responseJson,
                         nusModsIDExists: true,
                     });
+                    this.getAvailability();
                 });
             }
+        })
+    }
+
+    getAvailability() {
+        if(this.state.dataSource[this.state.roomNow][this.state.day].Availability[this.state.time] === 'vacant') {
+            this.setState({availabile: true});
+        }
+    }
+
+    getFloorPlan() {
+        var storageRef = storage.ref(this.state.roomData["0"].location.split('-')[0] + '/' + this.state.roomData["0"].location.split('-')[1] + '.png');
+        storageRef.getDownloadURL().then((url) => {
+            this.setState({floorplan: url});
         })
     }
 
@@ -115,10 +137,9 @@ export default class DetailsScreen extends React.Component {
         return {
             headerTitleStyle: {
                 flex: 1,
-                alignSelf: 'center',
-                textAlign: 'center',
+                color: 'transparent',
+                elevation: 0
             },
-            title: navigation.getParam('roomName', 'NO-NAME'),
             headerLeft: (
                 <HeaderButton IconComponent = {Icon} iconSize = {23} color = "black">
                     <HeaderButton.Item 
@@ -128,59 +149,145 @@ export default class DetailsScreen extends React.Component {
                     />
                 </HeaderButton>
             ),
-            headerRight: <View/>
         }
     }
 
     render() {
-        return (
-            <View>
-            {this.state.isLoading ?
-                null
-            :
-                <View>
-                    <Text style = {styles.name}>Type</Text>
-                    <Text style = {styles.field}>{this.state.roomData["0"].type}</Text>
-                    <Text style = {styles.name}>Unit</Text>
-                    <Text style = {styles.field}>{this.state.roomData["0"].unit}</Text>
-                    {this.state.nusModsIDExists ?
-                        <View>
-                            <Text style = {styles.name}>Current Availability</Text>
-                            <Text style = {styles.field}>
-                                {this.state.dataSource[this.state.roomNow][this.state.day].Day} ({this.state.time}-{this.state.endTime}): {this.state.dataSource[this.state.roomNow][this.state.day].Availability[this.state.time]}
-                            </Text>
-                        </View>
-                    :
-                        null
-                    }
-                    {this.state.staffExists ?
-                        <View>
-                            <Text style = {styles.name}>Staff</Text>
-                            {this.state.staff.map((staff, index) => (
-                                <TouchableOpacity key = {index} onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
-                                    <Text style = {styles.field}>{staff.name}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    :
-                        null
-                    }
+        if(this.state.isLoading === false) {
+            return (
+                <View style = {styles.container}>
 
+                    <ScrollView>
+                        <View style = {styles.header} >
+                            <Text style = {styles.headerTitle} > {this.state.roomData["0"].name} </Text>
+                            <Text style = {styles.headerText} > {this.state.roomData["0"].type} </Text>
+                        </View>
+
+                        <View style = {styles.card} >
+                            <Text style = {styles.cardTitle}>Location</Text>
+                            <View style = {{flex: 1, flexDirection: 'row'}} >
+                                <View style = {{flex: 1, flexDirection: 'column'}} >
+                                    <Text style = {styles.cardTextBold}>Unit</Text>
+                                    <Text style = {styles.cardText}>{this.state.roomData["0"].unit}</Text>
+                                </View>
+                                <View style = {{flex: 1, flexDirection: 'column'}} >
+                                    <Text style = {styles.cardTextBold}>Building</Text>
+                                    <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[0]}</Text>
+                                </View>
+                                <View style = {{flex: 1, flexDirection: 'column'}} >
+                                    <Text style = {styles.cardTextBold}>Floor</Text>
+                                    <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[1]}</Text>
+                                </View>
+                            </View>
+
+                            <MapView
+                                customMapStyle = {mapStyle}
+                                provider = {PROVIDER_GOOGLE}
+                                style = {styles.map}
+                                scrollEnabled = {false}
+                                initialRegion = {{
+                                    latitude: this.state.roomData["0"].latitude, longitude: this.state.roomData["0"].longitude,
+                                    latitudeDelta: 0.001, longitudeDelta: 0.001
+                                }} >
+
+                                <MapView.Overlay
+                                    bounds = {[[1.295529, 103.773580],[1.294548, 103.774318]]}
+                                    image = {{uri: this.state.floorplan}} />
+                            
+                            </MapView>
+                        </View>
+                            
+                        {this.state.staffExists ?
+                            <View style = {styles.card} >
+                                <Text style = {styles.cardTitle}>Staff</Text>
+                                {this.state.staff.map((staff, index) => (
+                                    <TouchableOpacity key = {index} onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
+                                        <Text style = {styles.cardText}>{staff.name}</Text>
+                                    </TouchableOpacity>
+                                ))}              
+                            </View>
+                        :
+                            null
+                        }
+
+
+                        {this.state.nusModsIDExists ?
+                            <View style = {styles.card} >
+                                <Text style = {styles.cardTitle}>Availability</Text>
+                                {this.state.availabile ?
+                                    <Text style = {[styles.cardText, {color: 'green'}]}> Available </Text>
+                                :
+                                    <Text style = {[styles.cardText, {color: 'red'}]}> Not Available </Text>
+                                }
+                            </View>
+                        :
+                            null
+                        }
+
+                    </ScrollView>
                 </View>
-            }
-            </View>
-        )
+            )
+        }
+        else return <View/>
     }
 }
 
 const styles = StyleSheet.create({
-    field: {
-        color: 'black',
-        fontSize: 18,
+    container: {
+        backgroundColor: 'white',
+        flex: 1,
     },
 
-    name: {
-        color: 'gray',
-        fontSize: 12,
+    header: {
+        alignItems: 'flex-start',
+        marginTop: 40,
+        marginBottom: 40,
+        marginLeft: 15,
+        marginRight: 15,        
+    },
+
+    headerTitle: {
+        color: 'black',
+        fontSize: 25,
+        fontFamily: 'Rubik-Medium',
+    },
+
+    headerText: {
+        color: 'black',
+        fontSize: 18,
+        fontFamily: 'Rubik-Light'
+    },
+
+    card: {
+        backgroundColor: 'white',
+        padding: 15,
+        borderBottomColor: 'grey',
+        borderBottomWidth: 0.5
+    },
+
+    cardTitle: {
+        color: 'magenta',
+        fontSize: 16,
+        fontFamily: 'Rubik-Regular',
+        textAlign: 'center'
+    },
+    
+    cardTextBold: {
+        color: 'black',
+        fontSize: 16,
+        fontFamily: 'Rubik-Regular',
+        textAlign: 'center'
+    },
+
+    cardText: {
+        color: 'black',
+        fontSize: 20,
+        fontFamily: 'Rubik-Light',
+        textAlign: 'center'
+    },
+
+    map: {
+        height: 150,
+        marginTop: 20
     }
 })

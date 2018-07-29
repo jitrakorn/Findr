@@ -27,7 +27,9 @@ const MapStack = createStackNavigator({
 
 const SearchStack = createStackNavigator({
     BuildingMap: BuildingScreen,
-    Search: SearchScreen
+    Search: SearchScreen,
+    Details: DetailsScreen,
+    Staff: StaffScreen,
 },
 {
     initialRouteName: 'Search',
