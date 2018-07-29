@@ -134,7 +134,7 @@ export default class BuildingScreen extends React.Component {
                         onPress = {() => this.deselectMarker()}>
 
                         <MapView.Overlay
-                            bounds = {[[1.295529, 103.773580],[1.294548, 103.774318]]}
+                            bounds = {this.state.buildingData["0"].bounds}
                             image = {{uri: this.state.floorplan}} />
 
                         {this.state.markerSelected ? 
@@ -157,7 +157,7 @@ export default class BuildingScreen extends React.Component {
                     {this.state.markerSelected ?
                         <View style = {{flex: 1, width: '100%'}}>
                             <TouchableOpacity onPress = {() => this.deselectMarker()}>
-                                <View style = {[styles.button, {alignSelf: 'center', margin: 10}]} >
+                                <View style = {[styles.button, {alignSelf: 'center', margin: 10, elevation: 3}]} >
                                     <Text style = {styles.buttonText} > FULL MAP </Text>
                                 </View>
                             </TouchableOpacity>
@@ -187,7 +187,7 @@ export default class BuildingScreen extends React.Component {
                                         textStyle = {{color: 'grey', fontSize: 12, fontFamily: 'Rubik-Regular'}}
                                         innerBorderStyle = {{color: 'transparent'}}
                                         buttonStyle = {{padding: 10, width: 50}}
-                                        selectedTextStyle = {{color: 'magenta', fontFamily: 'Rubik-Medium'}} />
+                                        selectedTextStyle = {{color: '#e67e22', fontFamily: 'Rubik-Medium'}} />
                                 </View>
                                 
                                 <TouchableOpacity onPress = {() => this.openDirectory()}>
@@ -203,20 +203,17 @@ export default class BuildingScreen extends React.Component {
                         transparent = {false}
                         visible = {this.state.modalVisible}
                         onRequestClose = {() => this.setState({modalVisible: false})} >
-                            <View style = {{backgroundColor: '#FB8C00', flex: 1}}>
+                            <View style = {styles.directoryContainer}>
                                 <ScrollView>
+
                                     <View style = {styles.directoryHeader} >
-                                        <Text style = {styles.directoryHeaderTitle}> {this.state.buildingData["0"].name} </Text>
-                                        <View style = {{flex: 1, flexDirection: 'row'}} >
-                                            <Icon name = 'school' color = 'white' size = {15}/>
-                                            <Text style = {styles.directoryHeaderInfo}> {this.state.buildingData["0"].school} </Text>
-                                        </View>
-                                        <View style = {{flex: 1, flexDirection: 'row'}} >
-                                            <Icon name = 'room' color = 'white' size = {15} />
-                                            <Text style = {styles.directoryHeaderInfo}> {this.state.buildingData["0"].address} </Text>
-                                        </View>
+                                        <Text style = {styles.directoryHeaderTitle}>{this.state.buildingData["0"].name} </Text>
+                                        <Text style = {styles.directoryHeaderText}>{this.state.buildingData["0"].school} </Text>
+                                        <Text style = {styles.directoryHeaderText}>{this.state.buildingData["0"].address} </Text>
                                     </View>
-                                    <View style = {{backgroundColor: 'white', margin: 10, borderRadius: 10, padding: 15}}>
+
+                                    <View style = {styles.directoryCard}>
+                                        <Text style = {styles.directoryCardTitle} >Rooms</Text>
                                         {this.state.directoryData.map((room, index) => ( 
                                             <TouchableOpacity key = {index} onPress = {() => this.selectRoom(room.location, room.unit)} >
                                                 <Text style = {styles.directoryRoomName}>{room.name}</Text>
@@ -226,7 +223,7 @@ export default class BuildingScreen extends React.Component {
                                     </View>
                                 </ScrollView>
                                 <TouchableOpacity style = {{margin: 10}} onPress = {() => this.setState({modalVisible: false})}>
-                                    <Text style = {{fontSize: 18, textAlign: 'right', fontFamily: 'Rubik-Regular', color: 'white'}}> CLOSE </Text>
+                                    <Text style = {{fontSize: 18, textAlign: 'right', fontFamily: 'Rubik-Regular', color: '#e67e22'}}> CLOSE </Text>
                                 </TouchableOpacity>
                             </View>
                     </Modal>
@@ -258,8 +255,8 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        backgroundColor: 'magenta',
-        borderRadius: 30,
+        backgroundColor: '#e67e22',
+        borderRadius: 10,
         padding: 12,
     },
 
@@ -292,21 +289,43 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
 
+    directoryContainer: {
+        backgroundColor: 'white',
+        flex: 1,
+    },
+
     directoryHeader: {
-        alignItems: 'center',
-        margin: 40
+        alignItems: 'flex-start',
+        paddingTop: 40,
+        paddingBottom: 40,
+        paddingLeft: 15,
+        paddingRight: 15,  
     },
 
     directoryHeaderTitle: {
-        color: 'white',
+        color: 'black',
         fontSize: 40,
         fontFamily: 'Rubik-Medium',
     },
 
-    directoryHeaderInfo: {
-        color: 'white',
+    directoryHeaderText: {
+        color: 'black',
         fontSize: 18,
+        fontFamily: 'Rubik-Light'
+    },
+
+    directoryCard: {
+        backgroundColor: 'white',
+        padding: 15,
+        borderBottomColor: 'grey',
+        borderBottomWidth: 0.5
+    },
+
+    directoryCardTitle: {
+        color: '#e67e22',
+        fontSize: 16,
         fontFamily: 'Rubik-Regular',
+        textAlign: 'center'
     },
 
     directoryRoomName: {

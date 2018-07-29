@@ -50,7 +50,7 @@ const RootStack = createBottomTabNavigator({
         }
     }),
     tabBarOptions: {
-        activeTintColor: 'magenta',
+        activeTintColor: '#e67e22',
         showIcon: true,
         labelStyle: ({fontFamily: 'Rubik-Regular'})
     }

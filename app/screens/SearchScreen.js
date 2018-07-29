@@ -62,7 +62,7 @@ export default class SearchScreen extends React.Component {
         const filteredStaff = this.state.staffData.filter(createFilter(this.state.searchTerm, 'name'))
 
         return (
-            <View>
+            <View style = {{backgroundColor: 'white'}}>
                 <SearchBar
                     containerStyle = {styles.searchContainer}
                     inputStyle = {styles.searchInput}
@@ -83,8 +83,8 @@ export default class SearchScreen extends React.Component {
                             })} >
                             <Icon name = 'building' type = 'font-awesome' />
                             <View style = {{flex: 1, flexDirection: 'column'}} >
-                                <Text style = {styles.searchResultText} > {building.name} </Text>
-                                <Text style = {styles.searchResultSubText} > {building.school} </Text>
+                                <Text style = {styles.searchResultText} >{building.name}</Text>
+                                <Text style = {styles.searchResultSubText} >{building.school}</Text>
                             </View>
                         </TouchableOpacity>
                     ))}
@@ -99,8 +99,8 @@ export default class SearchScreen extends React.Component {
                             })} >
                             <Icon name = 'door' type = 'material-community' />
                             <View style = {{flex: 1, flexDirection: 'column'}} >
-                                <Text key = {index} style = {styles.searchResultText} > {room.name} </Text>
-                                <Text style = {styles.searchResultSubText} > {room.unit} </Text>
+                                <Text key = {index} style = {styles.searchResultText} >{room.name}</Text>
+                                <Text style = {styles.searchResultSubText} >{room.unit}</Text>
                             </View>
                         </TouchableOpacity>                          
                     ))}
@@ -114,8 +114,8 @@ export default class SearchScreen extends React.Component {
                             })} >
                             <Icon name = 'face' type = 'material-community' />
                             <View style = {{flex: 1, flexDirection: 'column'}} >
-                                <Text key = {index} style = {styles.searchResultText} > {staff.name} </Text>
-                                <Text style = {styles.searchResultSubText} > {staff.room} </Text>
+                                <Text key = {index} style = {styles.searchResultText} >{staff.name}</Text>
+                                <Text style = {styles.searchResultSubText} >{staff.room}</Text>
                             </View>
                         </TouchableOpacity>  
                     ))}
@@ -132,10 +132,14 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 0,
         borderBottomWidth: 0,
+        height: 100
     },
     searchInput: {
         backgroundColor: 'white',
         color: 'black',
+        fontFamily: 'Rubik-Medium',
+        fontSize: 32,
+        height: 100
     },
     searchResult: {
         padding: 10,
@@ -144,11 +148,12 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     searchResultText: {
-        fontFamily: 'Rubik-Medium',
+        color: 'black',
+        fontFamily: 'Rubik-Regular',
         fontSize: 18,
     },
     searchResultSubText: {
-        fontFamily: 'Rubik-Regular',
+        fontFamily: 'Rubik-Light',
         fontSize: 12,
     }
 })
