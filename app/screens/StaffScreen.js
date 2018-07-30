@@ -125,6 +125,9 @@ export default class StaffScreen extends React.Component {
                                 floorplan = {this.state.floorplan}
                                 shortname = {this.state.roomData["0"].shortname}
                             />
+                            <TouchableOpacity style = {{margin: 10}} onPress = {() => this.setState({fullSizedMap: false})}>
+                                <Text style = {{fontSize: 18, textAlign: 'right', fontFamily: 'Rubik-Regular', color: '#e67e22'}}> CLOSE </Text>
+                            </TouchableOpacity>
                     </Modal>
                 </View>
             )

@@ -62,7 +62,7 @@ export default class SearchScreen extends React.Component {
         const filteredStaff = this.state.staffData.filter(createFilter(this.state.searchTerm, 'name'))
 
         return (
-            <View style = {{backgroundColor: 'white'}}>
+            <View style = {{height: '100%', backgroundColor: 'white'}}>
                 <SearchBar
                     containerStyle = {styles.searchContainer}
                     inputStyle = {styles.searchInput}
@@ -72,7 +72,7 @@ export default class SearchScreen extends React.Component {
                     autoFocus = {true}
                     onChangeText = {(text) => this.searchUpdated(text)} />
 
-                <ScrollView>
+                <ScrollView style = {{backgroundColor: 'white'}}>
                     {filteredBuildings.map((building, index) => (
                         <TouchableOpacity
                             key = {index}
@@ -85,7 +85,9 @@ export default class SearchScreen extends React.Component {
                             <View style = {{flex: 1, flexDirection: 'column'}} >
                                 <Text style = {styles.searchResultText} >{building.name}</Text>
                                 <Text style = {styles.searchResultSubText} >{building.school}</Text>
+
                             </View>
+
                         </TouchableOpacity>
                     ))}
 
@@ -116,6 +118,7 @@ export default class SearchScreen extends React.Component {
                             <View style = {{flex: 1, flexDirection: 'column'}} >
                                 <Text key = {index} style = {styles.searchResultText} >{staff.name}</Text>
                                 <Text style = {styles.searchResultSubText} >{staff.room}</Text>
+
                             </View>
                         </TouchableOpacity>  
                     ))}

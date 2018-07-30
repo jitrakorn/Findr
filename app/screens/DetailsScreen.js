@@ -33,7 +33,8 @@ export default class DetailsScreen extends React.Component {
             availabile: false,
             floorplanBounds: [],
             floorplan: 'https://firebasestorage.googleapis.com/v0/b/findr-1526869968216.appspot.com/o/blank.png?alt=media&token=8ec2978f-8a16-4472-8000-3801c0224997',
-            fullSizedMap: false
+            fullSizedMap: false,
+            timetableVisible: false,
         }
     }
 
@@ -117,6 +118,11 @@ export default class DetailsScreen extends React.Component {
         }
     }
 
+    getColor(status) {
+        if(status === 'occupied') return true
+        else return false
+    }
+
     getFloorplan() {
         var dataRef = database.ref('buildings/' + this.state.roomData["0"].location.split('-')[0] + '/bounds');
         dataRef.once('value', (snapshot) => {
@@ -140,9 +146,10 @@ export default class DetailsScreen extends React.Component {
         if(this.state.roomData !== prevState.roomData) {
             console.log(this.state.roomData)
             this.getTimetable();
-            this.setState({isLoading: false});
             this.getFloorplan();
         }
+
+        if(this.state.floorplanBounds !== prevState.floorplanBounds) this.setState({isLoading: false});
     }
 
     static navigationOptions = ({navigation}) => {
@@ -167,70 +174,97 @@ export default class DetailsScreen extends React.Component {
     render() {
         if(this.state.isLoading === false) {
             return (
-                <View style = {styles.container}>
-                    <ScrollView>
-                        <View style = {styles.header} >
-                            <Text style = {styles.headerTitle} >{this.state.roomData["0"].name}</Text>
-                            <Text style = {styles.headerText} >{this.state.roomData["0"].type}</Text>
+                <ScrollView style = {styles.container}>
+                    <View style = {styles.header} >
+                        <Text style = {styles.headerTitle} >{this.state.roomData["0"].name}</Text>
+                        <Text style = {styles.headerText} >{this.state.roomData["0"].type}</Text>
+                    </View>
+
+                    <View style = {styles.card} >
+                        <Text style = {styles.cardTitle}>LOCATION</Text>
+                        <View style = {{flex: 1, flexDirection: 'row'}} >
+                            <View style = {{flex: 1, flexDirection: 'column'}} >
+                                <Text style = {styles.cardTextBold}>Unit</Text>
+                                <Text style = {styles.cardText}>{this.state.roomData["0"].unit}</Text>
+                            </View>
+                            <View style = {{flex: 1, flexDirection: 'column'}} >
+                                <Text style = {styles.cardTextBold}>Building</Text>
+                                <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[0]}</Text>
+                            </View>
+                            <View style = {{flex: 1, flexDirection: 'column'}} >
+                                <Text style = {styles.cardTextBold}>Floor</Text>
+                                <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[1]}</Text>
+                            </View>
                         </View>
 
+                        <Map
+                            style = {styles.map}
+                            fullSize = {false}
+                            onPress = {() => this.setState({fullSizedMap: true})}
+                            roomLatitude = {this.state.roomData["0"].latitude}
+                            roomLongitude = {this.state.roomData["0"].longitude}
+                            bounds = {this.state.floorplanBounds}
+                            floorplan = {this.state.floorplan}
+                            shortname = {this.state.roomData["0"].shortname}
+                        />
+                    </View>
+                        
+                    {this.state.staffExists ?
                         <View style = {styles.card} >
-                            <Text style = {styles.cardTitle}>LOCATION</Text>
-                            <View style = {{flex: 1, flexDirection: 'row'}} >
-                                <View style = {{flex: 1, flexDirection: 'column'}} >
-                                    <Text style = {styles.cardTextBold}>Unit</Text>
-                                    <Text style = {styles.cardText}>{this.state.roomData["0"].unit}</Text>
-                                </View>
-                                <View style = {{flex: 1, flexDirection: 'column'}} >
-                                    <Text style = {styles.cardTextBold}>Building</Text>
-                                    <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[0]}</Text>
-                                </View>
-                                <View style = {{flex: 1, flexDirection: 'column'}} >
-                                    <Text style = {styles.cardTextBold}>Floor</Text>
-                                    <Text style = {styles.cardText}>{this.state.roomData["0"].location.split('-')[1]}</Text>
-                                </View>
-                            </View>
-
-                            <Map
-                                style = {styles.map}
-                                fullSize = {false}
-                                onPress = {() => this.setState({fullSizedMap: true})}
-                                roomLatitude = {this.state.roomData["0"].latitude}
-                                roomLongitude = {this.state.roomData["0"].longitude}
-                                bounds = {this.state.floorplanBounds}
-                                floorplan = {this.state.floorplan}
-                                shortname = {this.state.roomData["0"].shortname}
-                            />
+                            <Text style = {styles.cardTitle}>STAFF</Text>
+                            {this.state.staff.map((staff, index) => (
+                                <TouchableOpacity key = {index} onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
+                                    <Text style = {styles.cardText}>{staff.name}</Text>
+                                </TouchableOpacity>
+                            ))}              
                         </View>
-                            
-                        {this.state.staffExists ?
-                            <View style = {styles.card} >
-                                <Text style = {styles.cardTitle}>STAFF</Text>
-                                {this.state.staff.map((staff, index) => (
-                                    <TouchableOpacity key = {index} onPress = {() => this.props.navigation.navigate('Staff', {email: staff.email})} >
-                                        <Text style = {styles.cardText}>{staff.name}</Text>
-                                    </TouchableOpacity>
-                                ))}              
-                            </View>
-                        :
-                            null
-                        }
+                    :
+                        null
+                    }
 
 
-                        {this.state.nusModsIDExists ?
-                            <View style = {styles.card} >
-                                <Text style = {styles.cardTitle}>AVAILABILITY</Text>
+                    {this.state.nusModsIDExists ?
+                        <View style = {styles.card} >
+                            <Text style = {styles.cardTitle}>CURRENT AVAILABILITY</Text>
+                            <TouchableOpacity onPress = {() => this.setState({timetableVisible: true})} >
                                 {this.state.availabile ?
-                                    <Text style = {[styles.cardText, {color: 'green'}]}> Available </Text>
+                                    <Text style = {[styles.cardText, {color: '#2ecc71'}]}> Available </Text>
                                 :
-                                    <Text style = {[styles.cardText, {color: 'red'}]}> Not Available </Text>
+                                    <Text style = {[styles.cardText, {color: '#e74c3c'}]}> Not Available </Text>
                                 }
-                            </View>
-                        :
-                            null
-                        }
+                            </TouchableOpacity>
 
-                    </ScrollView>
+                        <Modal
+                            animationType = 'slide'
+                            transparent = {false}
+                            visible = {this.state.timetableVisible}
+                            onRequestClose = {() => this.setState({timetableVisible: false})} >
+                            <ScrollView style = {styles.container}>
+                                <View style = {styles.header} >
+                                    <Text style = {styles.headerTitle} >Availability for Today</Text>
+                                </View>
+
+                                {Object.values(this.state.dataSource[this.state.roomNow][this.state.day].Availability).map((time, index) => (
+                                <View key = {index} style = {{height: 50, flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', margin: 3}}>
+                                    <Text style = {[styles.cardText, {width: '20%'}]}>{Object.keys(this.state.dataSource[this.state.roomNow][this.state.day].Availability)[index]}</Text>
+                                    {this.getColor(time) ?
+                                        <View style = {{width: '80%', height: 50, backgroundColor: '#e74c3c'}} />
+                                        :
+                                        <View style = {{width: '80%', height: 50, backgroundColor: '#2ecc71'}} />
+                                    }
+                                </View>
+                                ))}
+                            </ScrollView>
+                            <TouchableOpacity style = {{margin: 10}} onPress = {() => this.setState({timetableVisible: false})}>
+                                <Text style = {{fontSize: 18, textAlign: 'right', fontFamily: 'Rubik-Regular', color: '#e67e22'}}> CLOSE </Text>
+                            </TouchableOpacity>
+                        </Modal>
+
+                        </View>
+                    :
+                        null
+                    }
+
 
                     <Modal
                         animationType = 'slide'
@@ -246,8 +280,12 @@ export default class DetailsScreen extends React.Component {
                                 floorplan = {this.state.floorplan}
                                 shortname = {this.state.roomData["0"].shortname}
                             />
+                            <TouchableOpacity style = {{margin: 10}} onPress = {() => this.setState({fullSizedMap: false})}>
+                                <Text style = {{fontSize: 18, textAlign: 'right', fontFamily: 'Rubik-Regular', color: '#e67e22'}}> CLOSE </Text>
+                            </TouchableOpacity>
                     </Modal>
-                </View>
+                    
+                </ScrollView>
             )
         }
         else return <View/>

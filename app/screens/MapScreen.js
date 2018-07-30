@@ -38,7 +38,10 @@ export default class MapScreen extends React.Component {
     render() {
         return (
             <View style = {styles.container}>
-
+                <StatusBar
+                    backgroundColor="white"
+                    barStyle="dark-content"
+                />
                 <MapView
                     provider = {PROVIDER_GOOGLE}
                     style = {styles.map}
