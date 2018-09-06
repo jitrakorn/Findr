@@ -149,7 +149,7 @@ export default class DetailsScreen extends React.Component {
             this.getFloorplan();
         }
 
-        if(this.state.floorplanBounds !== prevState.floorplanBounds) this.setState({isLoading: false});
+        if(this.state.floorplan !== prevState.floorplan) this.setState({isLoading: false});
     }
 
     static navigationOptions = ({navigation}) => {

@@ -1,4 +1,4 @@
-#Mon Jul 30 12:07:18 SGT 2018
+#Wed Sep 05 14:02:10 SGT 2018
 base.0=C\:\\Users\\jitra\\Documents\\Findr\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

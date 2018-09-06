@@ -6,7 +6,6 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import MapMarker from '../components/MapMarker';
 import { firebaseApp } from '../firebase';
-import DirectoryScreen from './DirectoryScreen';
 import mapStyle from '../mapStyle.json';
 
 var database = firebaseApp.database();
@@ -97,7 +96,7 @@ export default class BuildingScreen extends React.Component {
             this.getSelectedIndex();
             this.getFloorData();
         }
-        if(this.state.floorData !== prevState.floorData) this.setState({isLoading: false});
+        if(this.state.floorplan !== prevState.floorplan) this.setState({isLoading: false});
         if(this.state.selectedFloor !== prevState.selectedFloor) {
             console.log(this.state.selectedFloor)
             this.getFloorData();
@@ -124,8 +123,8 @@ export default class BuildingScreen extends React.Component {
             return (
                 <View style = {styles.container}>
                     <MapView
-                    customMapStyle = {mapStyle}
                         provider = {PROVIDER_GOOGLE}
+                        customMapStyle = {mapStyle}
                         style = {styles.map}
                         initialRegion = {{
                             latitude: this.state.buildingData["0"].latitude, longitude: this.state.buildingData["0"].longitude,
@@ -133,9 +132,6 @@ export default class BuildingScreen extends React.Component {
                         }}
                         onPress = {() => this.deselectMarker()}>
 
-                        <MapView.Overlay
-                            bounds = {this.state.buildingData["0"].bounds}
-                            image = {{uri: this.state.floorplan}} />
 
                         {this.state.markerSelected ? 
                             <MapMarker
@@ -151,6 +147,13 @@ export default class BuildingScreen extends React.Component {
                                     onPress = {() => this.selectMarker(room.unit)} />
                             ))
                         }
+
+                        
+                        <MapView.Overlay
+                            bounds = {this.state.buildingData["0"].bounds}
+                            image = {{uri: this.state.floorplan}} />
+
+
                         
                     </MapView>
 
@@ -213,7 +216,7 @@ export default class BuildingScreen extends React.Component {
                                     </View>
 
                                     <View style = {styles.directoryCard}>
-                                        <Text style = {styles.directoryCardTitle} >Rooms</Text>
+                                        <Text style = {styles.directoryCardTitle} >ROOMS</Text>
                                         {this.state.directoryData.map((room, index) => ( 
                                             <TouchableOpacity key = {index} onPress = {() => this.selectRoom(room.location, room.unit)} >
                                                 <Text style = {styles.directoryRoomName}>{room.name}</Text>
@@ -324,7 +327,7 @@ const styles = StyleSheet.create({
     directoryCardTitle: {
         color: '#e67e22',
         fontSize: 16,
-        fontFamily: 'Rubik-Regular',
+        fontFamily: 'Rubik-Medium',
         textAlign: 'center'
     },
 

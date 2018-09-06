@@ -57,7 +57,7 @@ export default class StaffScreen extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if(this.state.staffData !== prevState.staffData) this.getRoomData();
         if(this.state.roomData !== prevState.roomData) this.getFloorplan();
-        if(this.state.floorplanBounds !== prevState.floorplanBounds) {
+        if(this.state.floorplan !== prevState.floorplan) {
             this.setState({isLoading: false});
         }
     }

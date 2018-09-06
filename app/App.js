@@ -36,16 +36,26 @@ const SearchStack = createStackNavigator({
 })
 
 const RootStack = createBottomTabNavigator({
-    Map: MapStack,
-    Search: SearchStack,
-    About: AboutScreen,
+    Map: {
+        screen: MapStack,
+        navigationOptions: ({ navigation }) => ({
+            title: "Map",
+            icon: ({ tintColor }) => <Icon name = 'map' size = {25} color = 'black'/>
+        })
+    },
+    Search: {
+        screen: SearchStack,
+    },
+    About: {
+        screen: AboutScreen,
+    }
 },
 {
     initialRouteName: 'Map',
     navigationOptions: ({navigation}) => ({
         tabBarIcon: ({focused, tintColor}) => {
             const {routeName} = navigation.state;
-            if(routeName === 'Map') (<Text> Hi </Text>)
+            if(routeName === 'Map') (<Icon name = 'map'/>)
             else if (routeName === 'Search') (<Icon name = 'search'/>)
         }
     }),
