@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "firebase": "^5.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.4",
     "npm": "^6.2.0",
     "react": "16.3.1",
     "react-devtools-core": "^3.2.3",
